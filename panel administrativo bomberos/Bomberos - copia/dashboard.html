@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Voluntariado – Bomberos</title>
+  
+  <!-- Bootstrap 5 CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css" />
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <style>
+    :root {
+      --primary-red: #b30000;
+      --dark-red: #800000;
+      --light-red: #ffb3b3;
+      --light-bg: #f8f9fa;
+      --dark-bg: #111;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .dashboard-container {
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .dashboard-header {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .dashboard-title {
+      color: var(--primary-red);
+      font-weight: bold;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .dashboard-title i {
+      font-size: 2.5rem;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .stat-card {
+      background: white;
+      border-radius: 15px;
+      padding: 25px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+      border-left: 4px solid var(--primary-red);
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .stat-card i {
+      font-size: 2.5rem;
+      color: var(--primary-red);
+      margin-bottom: 15px;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--dark-red);
+      margin-bottom: 5px;
+    }
+    
+    .stat-label {
+      color: #666;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    
+    .content-card {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+    
+    .card-title {
+      color: var(--primary-red);
+      font-weight: bold;
+      margin-bottom: 25px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .card-title i {
+      font-size: 1.5rem;
+    }
+    
+    .search-filter-bar {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+    }
+    
+    .search-input {
+      flex: 1;
+      min-width: 200px;
+    }
+    
+    .filter-select {
+      min-width: 150px;
+    }
+    
+    .volunteer-table {
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    
+    .volunteer-table thead {
+      background: var(--primary-red);
+      color: white;
+    }
+    
+    .volunteer-table thead th {
+      border: none;
+      padding: 15px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    
+    .volunteer-table tbody tr {
+      transition: background-color 0.3s ease;
+    }
+    
+    .volunteer-table tbody tr:hover {
+      background-color: var(--light-bg);
+    }
+    
+    .volunteer-table tbody td {
+      padding: 15px;
+      vertical-align: middle;
+      border-color: #e9ecef;
+    }
+    
+    .status-badge {
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+    
+    .status-active {
+      background-color: #d4edda;
+      color: #155724;
+    }
+    
+    .status-inactive {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+    
+    .status-training {
+      background-color: #fff3cd;
+      color: #856404;
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .btn-action {
+      padding: 5px 10px;
+      border-radius: 5px;
+      border: none;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-view {
+      background-color: #007bff;
+      color: white;
+    }
+    
+    .btn-view:hover {
+      background-color: #0056b3;
+    }
+    
+    .btn-edit {
+      background-color: #28a745;
+      color: white;
+    }
+    
+    .btn-edit:hover {
+      background-color: #1e7e34;
+    }
+    
+    .chart-container {
+      position: relative;
+      height: 300px;
+      margin-bottom: 30px;
+    }
+    
+    .pagination-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    
+    .pagination-info {
+      color: #666;
+      font-size: 0.9rem;
+    }
+    
+    .logout-btn {
+      background: var(--dark-red);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+    }
+    
+    .logout-btn:hover {
+      background: var(--primary-red);
+      transform: translateY(-2px);
+    }
+    
+    @media (max-width: 768px) {
+      .dashboard-container {
+        padding: 10px;
+      }
+      
+      .dashboard-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+        padding: 20px 15px;
+      }
+      
+      .dashboard-title {
+        font-size: 1.2rem;
+        justify-content: center;
+      }
+      
+      .dashboard-title i {
+        font-size: 1.8rem;
+      }
+      
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+      
+      .stat-card {
+        padding: 15px 10px;
+      }
+      
+      .stat-card i {
+        font-size: 1.8rem;
+      }
+      
+      .stat-number {
+        font-size: 1.5rem;
+      }
+      
+      .stat-label {
+        font-size: 0.8rem;
+      }
+      
+      .content-card {
+        padding: 15px;
+        border-radius: 10px;
+      }
+      
+      .card-title {
+        font-size: 1.1rem;
+      }
+      
+      .search-filter-bar {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .search-input,
+      .filter-select {
+        width: 100%;
+      }
+      
+      .volunteer-table {
+        font-size: 0.8rem;
+      }
+      
+      .volunteer-table thead th {
+        padding: 10px 5px;
+        font-size: 0.8rem;
+      }
+      
+      .volunteer-table tbody td {
+        padding: 8px 5px;
+      }
+      
+      .action-buttons {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+      
+      .btn-action {
+        padding: 5px 8px;
+        font-size: 0.75rem;
+      }
+      
+      .chart-container {
+        height: 200px;
+      }
+      
+      .pagination-container {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .logout-btn {
+        width: 100%;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .dashboard-title {
+        font-size: 1rem;
+      }
+      
+      .dashboard-title i {
+        font-size: 1.5rem;
+      }
+      
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      
+      .stat-card {
+        padding: 12px 8px;
+      }
+      
+      .stat-card i {
+        font-size: 1.5rem;
+      }
+      
+      .stat-number {
+        font-size: 1.3rem;
+      }
+      
+      .stat-label {
+        font-size: 0.75rem;
+      }
+      
+      .content-card {
+        padding: 10px;
+      }
+      
+      .card-title {
+        font-size: 1rem;
+      }
+      
+      .volunteer-table {
+        font-size: 0.75rem;
+      }
+      
+      .btn-action {
+        padding: 4px 6px;
+        font-size: 0.7rem;
+      }
+    }
+    
+    /* ===== ANDROID / MOBILE IMPROVEMENTS ===== */
+    
+    html {
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+    
+    a, button, input, select, textarea {
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    .btn-action,
+    .logout-btn {
+      min-height: 44px;
+    }
+    
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    select,
+    textarea {
+      font-size: 16px !important;
+    }
+    
+    .modal-dialog {
+      margin: 10px;
+      max-height: 90vh;
+    }
+    
+    .modal-body {
+      max-height: 65vh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .table-responsive {
+      -webkit-overflow-scrolling: touch;
+      border-radius: 10px;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+    
+    body {
+      overscroll-behavior-y: contain;
+    }
+    
+    .alert.position-fixed {
+      max-width: 90vw;
+      font-size: 0.9rem;
+    }
+    
+    /* Better table display on mobile */
+    @media (max-width: 576px) {
+      .volunteer-table thead {
+        display: none;
+      }
+      
+      .volunteer-table tbody tr {
+        display: block;
+        margin-bottom: 15px;
+        padding: 12px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        border-left: 4px solid var(--primary-red);
+      }
+      
+      .volunteer-table tbody td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 6px 0;
+        border: none;
+        font-size: 0.85rem;
+      }
+      
+      .volunteer-table tbody td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: var(--primary-red);
+        min-width: 100px;
+      }
+      
+      .volunteer-table tbody td:last-child {
+        justify-content: center;
+        margin-top: 8px;
+        padding-top: 8px;
+        border-top: 1px solid #eee;
+      }
+      
+      .search-filter-bar {
+        flex-direction: column;
+      }
+      
+      .search-input,
+      .filter-select {
+        width: 100%;
+      }
+      
+      .pagination-container {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .pagination {
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      
+      .page-link {
+        min-width: 40px;
+        min-height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+    
+    /* Fix chart containers on mobile */
+    @media (max-width: 576px) {
+      .chart-container {
+        height: 220px;
+      }
+      
+      .row > .col-lg-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+  <!-- Header -->
+  <div class="dashboard-header">
+    <div>
+      <h1 class="dashboard-title">
+        <i class="bi bi-people-fill"></i>
+        Panel de Voluntariado
+      </h1>
+      <p class="text-muted mb-0 mt-2">Gestión y monitoreo de voluntarios del Cuerpo de Bomberos</p>
+    </div>
+    <button class="logout-btn" onclick="window.location.href='admin.html'">
+      <i class="bi bi-box-arrow-left"></i> Volver al Panel
+    </button>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <i class="bi bi-people"></i>
+      <div class="stat-number">45</div>
+      <div class="stat-label">Total Voluntarios</div>
+    </div>
+    <div class="stat-card">
+      <i class="bi bi-person-check"></i>
+      <div class="stat-number">38</div>
+      <div class="stat-label">Activos</div>
+    </div>
+    <div class="stat-card">
+      <i class="bi bi-mortarboard"></i>
+      <div class="stat-number">12</div>
+      <div class="stat-label">En Capacitación</div>
+    </div>
+    <div class="stat-card">
+      <i class="bi bi-calendar-check"></i>
+      <div class="stat-number">156</div>
+      <div class="stat-label">Horas/Mes</div>
+    </div>
+  </div>
+
+  <!-- Charts Section -->
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="content-card">
+        <h3 class="card-title">
+          <i class="bi bi-graph-up"></i>
+          Distribución por Estado
+        </h3>
+        <div class="chart-container">
+          <canvas id="statusChart"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="content-card">
+        <h3 class="card-title">
+          <i class="bi bi-clock-history"></i>
+          Horas por Mes
+        </h3>
+        <div class="chart-container">
+          <canvas id="hoursChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Volunteers Table -->
+  <div class="content-card">
+    <h3 class="card-title">
+      <i class="bi bi-table"></i>
+      Lista de Voluntarios
+    </h3>
+    
+    <!-- Search and Filter -->
+    <div class="search-filter-bar">
+      <div class="search-input">
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="bi bi-search"></i>
+          </span>
+          <input type="text" class="form-control" id="searchInput" placeholder="Buscar por nombre, cédula o especialidad...">
+        </div>
+      </div>
+      <select class="form-select filter-select" id="statusFilter">
+        <option value="">Todos los estados</option>
+        <option value="activo">Activo</option>
+        <option value="inactivo">Inactivo</option>
+        <option value="capacitación">En Capacitación</option>
+      </select>
+      <select class="form-select filter-select" id="specialtyFilter">
+        <option value="">Todas las especialidades</option>
+        <option value="combate">Combate de Incendios</option>
+        <option value="rescate">Rescate</option>
+        <option value="medico">Atención Médica</option>
+        <option value="comunicaciones">Comunicaciones</option>
+      </select>
+    </div>
+    
+    <!-- Table -->
+    <div class="table-responsive">
+      <table class="table volunteer-table" id="volunteersTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre Completo</th>
+            <th>Cédula</th>
+            <th>Teléfono</th>
+            <th>Especialidad</th>
+            <th>Estado</th>
+            <th>Horas/Mes</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="volunteersTableBody">
+          <!-- Table rows will be populated by JavaScript -->
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- Pagination -->
+    <div class="pagination-container">
+      <div class="pagination-info">
+        Mostrando <span id="showingStart">1</span> a <span id="showingEnd">10</span> de <span id="totalRecords">45</span> registros
+      </div>
+      <nav>
+        <ul class="pagination mb-0" id="pagination">
+          <!-- Pagination will be populated by JavaScript -->
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Sample volunteer data
+  const volunteersData = [
+    { id: 1, name: "Juan Pérez", cedula: "12345678", phone: "3114290411", specialty: "combate", status: "activo", hours: 45 },
+    { id: 2, name: "María González", cedula: "87654321", phone: "3225678901", specialty: "medico", status: "activo", hours: 38 },
+    { id: 3, name: "Carlos Rodríguez", cedula: "45678901", phone: "3102345678", specialty: "rescate", status: "capacitación", hours: 25 },
+    { id: 4, name: "Ana Martínez", cedula: "23456789", phone: "3156789012", specialty: "comunicaciones", status: "activo", hours: 42 },
+    { id: 5, name: "Luis Sánchez", cedula: "56789012", phone: "3213456789", specialty: "combate", status: "inactivo", hours: 0 },
+    { id: 6, name: "Sofía Ramírez", cedula: "34567890", phone: "3189012345", specialty: "medico", status: "activo", hours: 40 },
+    { id: 7, name: "Diego Torres", cedula: "67890123", phone: "3134567890", specialty: "rescate", status: "activo", hours: 35 },
+    { id: 8, name: "Laura Vargas", cedula: "78901234", phone: "3172345678", specialty: "comunicaciones", status: "capacitación", hours: 20 },
+    { id: 9, name: "Roberto Silva", cedula: "89012345", phone: "3198765432", specialty: "combate", status: "activo", hours: 48 },
+    { id: 10, name: "Carmen López", cedula: "90123456", phone: "3145678901", specialty: "medico", status: "activo", hours: 36 },
+    { id: 11, name: "Miguel Castro", cedula: "01234567", phone: "3209876543", specialty: "rescate", status: "activo", hours: 44 },
+    { id: 12, name: "Patricia Morales", cedula: "11223344", phone: "3161234567", specialty: "comunicaciones", status: "inactivo", hours: 0 },
+    { id: 13, name: "Fernando Herrera", cedula: "22334455", phone: "3119876543", specialty: "combate", status: "activo", hours: 46 },
+    { id: 14, name: "Diana Mendoza", cedula: "33445566", phone: "3223456789", specialty: "medico", status: "activo", hours: 39 },
+    { id: 15, name: "Javier Ortiz", cedula: "44556677", phone: "3132345678", specialty: "rescate", status: "capacitación", hours: 22 }
+  ];
+
+  let currentPage = 1;
+  const recordsPerPage = 10;
+  let filteredData = [...volunteersData];
+
+  // Initialize charts
+  function initCharts() {
+    // Status distribution chart
+    const statusCtx = document.getElementById('statusChart').getContext('2d');
+    new Chart(statusCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Activos', 'En Capacitación', 'Inactivos'],
+        datasets: [{
+          data: [38, 12, 5],
+          backgroundColor: [
+            '#28a745',
+            '#ffc107',
+            '#dc3545'
+          ],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom'
+          }
+        }
+      }
+    });
+
+    // Hours per month chart
+    const hoursCtx = document.getElementById('hoursChart').getContext('2d');
+    new Chart(hoursCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
+        datasets: [{
+          label: 'Horas de Voluntariado',
+          data: [145, 162, 148, 156, 171, 156],
+          backgroundColor: '#b30000',
+          borderRadius: 5
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  }
+
+  // Render table
+  function renderTable() {
+    const tbody = document.getElementById('volunteersTableBody');
+    const start = (currentPage - 1) * recordsPerPage;
+    const end = start + recordsPerPage;
+    const pageData = filteredData.slice(start, end);
+
+    tbody.innerHTML = pageData.map(volunteer => `
+      <tr>
+        <td data-label="ID">${volunteer.id}</td>
+        <td data-label="Nombre">${volunteer.name}</td>
+        <td data-label="Cédula">${volunteer.cedula}</td>
+        <td data-label="Teléfono">${volunteer.phone}</td>
+        <td data-label="Especialidad">${getSpecialtyLabel(volunteer.specialty)}</td>
+        <td data-label="Estado">
+          <span class="status-badge status-${volunteer.status}">
+            ${getStatusLabel(volunteer.status)}
+          </span>
+        </td>
+        <td data-label="Horas/Mes">${volunteer.hours}</td>
+        <td data-label="Acciones">
+          <div class="action-buttons">
+            <button class="btn-action btn-view" onclick="viewVolunteer(${volunteer.id})">
+              <i class="bi bi-eye"></i>
+            </button>
+            <button class="btn-action btn-edit" onclick="editVolunteer(${volunteer.id})">
+              <i class="bi bi-pencil"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+
+    updatePagination();
+  }
+
+  // Get specialty label
+  function getSpecialtyLabel(specialty) {
+    const labels = {
+      'combate': 'Combate de Incendios',
+      'rescate': 'Rescate',
+      'medico': 'Atención Médica',
+      'comunicaciones': 'Comunicaciones'
+    };
+    return labels[specialty] || specialty;
+  }
+
+  // Get status label
+  function getStatusLabel(status) {
+    const labels = {
+      'activo': 'Activo',
+      'inactivo': 'Inactivo',
+      'capacitación': 'En Capacitación'
+    };
+    return labels[status] || status;
+  }
+
+  // Update pagination
+  function updatePagination() {
+    const totalPages = Math.ceil(filteredData.length / recordsPerPage);
+    const pagination = document.getElementById('pagination');
+    const start = (currentPage - 1) * recordsPerPage + 1;
+    const end = Math.min(currentPage * recordsPerPage, filteredData.length);
+
+    document.getElementById('showingStart').textContent = filteredData.length > 0 ? start : 0;
+    document.getElementById('showingEnd').textContent = end;
+    document.getElementById('totalRecords').textContent = filteredData.length;
+
+    let paginationHTML = `
+      <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+        <a class="page-link" href="#" onclick="changePage(${currentPage - 1})">Anterior</a>
+      </li>
+    `;
+
+    for (let i = 1; i <= totalPages; i++) {
+      if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+        paginationHTML += `
+          <li class="page-item ${i === currentPage ? 'active' : ''}">
+            <a class="page-link" href="#" onclick="changePage(${i})">${i}</a>
+          </li>
+        `;
+      } else if (i === currentPage - 2 || i === currentPage + 2) {
+        paginationHTML += `<li class="page-item disabled"><a class="page-link">...</a></li>`;
+      }
+    }
+
+    paginationHTML += `
+      <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+        <a class="page-link" href="#" onclick="changePage(${currentPage + 1})">Siguiente</a>
+      </li>
+    `;
+
+    pagination.innerHTML = paginationHTML;
+  }
+
+  // Change page
+  function changePage(page) {
+    const totalPages = Math.ceil(filteredData.length / recordsPerPage);
+    if (page >= 1 && page <= totalPages) {
+      currentPage = page;
+      renderTable();
+    }
+    return false;
+  }
+
+  // Filter data
+  function filterData() {
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    const statusFilter = document.getElementById('statusFilter').value;
+    const specialtyFilter = document.getElementById('specialtyFilter').value;
+
+    filteredData = volunteersData.filter(volunteer => {
+      const matchesSearch = !searchTerm || 
+        volunteer.name.toLowerCase().includes(searchTerm) ||
+        volunteer.cedula.includes(searchTerm) ||
+        getSpecialtyLabel(volunteer.specialty).toLowerCase().includes(searchTerm);
+
+      const matchesStatus = !statusFilter || volunteer.status === statusFilter;
+      const matchesSpecialty = !specialtyFilter || volunteer.specialty === specialtyFilter;
+
+      return matchesSearch && matchesStatus && matchesSpecialty;
+    });
+
+    currentPage = 1;
+    renderTable();
+  }
+
+  // View volunteer
+  function viewVolunteer(id) {
+    const volunteer = volunteersData.find(v => v.id === id);
+    if (volunteer) {
+      alert(`Detalles del voluntario:\n\nNombre: ${volunteer.name}\nCédula: ${volunteer.cedula}\nTeléfono: ${volunteer.phone}\nEspecialidad: ${getSpecialtyLabel(volunteer.specialty)}\nEstado: ${getStatusLabel(volunteer.status)}\nHoras/Mes: ${volunteer.hours}`);
+    }
+  }
+
+  // Edit volunteer
+  function editVolunteer(id) {
+    alert(`Editar voluntario con ID: ${id}\n\nEsta funcionalidad abriría un formulario de edición.`);
+  }
+
+  // Event listeners
+  document.getElementById('searchInput').addEventListener('input', filterData);
+  document.getElementById('statusFilter').addEventListener('change', filterData);
+  document.getElementById('specialtyFilter').addEventListener('change', filterData);
+
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    initCharts();
+    renderTable();
+  });
+</script>
+
+</body>
+</html>

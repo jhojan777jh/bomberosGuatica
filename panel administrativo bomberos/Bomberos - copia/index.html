@@ -1,0 +1,2432 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cuerpo de Bomberos | Sitio Institucional</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="imagenes/bomberos.jpeg">
+  <link rel="icon" type="image/jpeg" href="imagenes/bomberos.jpeg">
+  <link rel="apple-touch-icon" href="imagenes/bomberos.jpeg">
+  
+  <!-- Bootstrap 5 CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css" />
+  <!-- AOS Animation Library -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  
+  <style>
+    :root {
+      --primary-red: #b30000;
+      --dark-red: #800000;
+      --light-red: #ffb3b3;
+      --dark-bg: #111;
+      --light-bg: #f8f9fa;
+      
+      --bg-primary: #f8f9fa;
+      --bg-secondary: #ffffff;
+      --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      --text-primary: #333333;
+      --text-secondary: #666666;
+      --card-bg: #ffffff;
+      --card-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      --border-color: #e0e0e0;
+      --footer-bg: #111;
+      --modal-bg: #ffffff;
+      --input-bg: #ffffff;
+      --input-border: #ced4da;
+      --navbar-bg: var(--primary-red);
+      --contact-bg: #f0f0f0;
+    }
+    
+    [data-theme="dark"] {
+      --bg-primary: #0f0f1a;
+      --bg-secondary: #1a1a2e;
+      --bg-gradient: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+      --text-primary: #f8f9fa;
+      --text-secondary: #b0b0b0;
+      --card-bg: #1a1a2e;
+      --card-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      --border-color: #2d2d44;
+      --footer-bg: #0a0a12;
+      --modal-bg: #1a1a2e;
+      --input-bg: #2d2d44;
+      --input-border: #404060;
+      --contact-bg: #1a1a2e;
+      --navbar-bg: #8b0000;
+    }
+    
+    * {
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg-gradient);
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    .navbar {
+      background: var(--navbar-bg) !important;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.15);
+      backdrop-filter: blur(10px);
+    }
+    
+    .navbar-brand {
+      font-weight: bold;
+      font-size: 1.4rem;
+      letter-spacing: 0.5px;
+    }
+    
+    .nav-link {
+      color: rgba(255,255,255,0.9) !important;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      margin: 0 8px;
+      padding: 8px 12px !important;
+      border-radius: 8px;
+    }
+    
+    .nav-link:hover {
+      color: white !important;
+      background: rgba(255,255,255,0.1);
+      transform: translateY(-2px);
+    }
+    
+    .nav-link.active {
+      color: white !important;
+      background: rgba(255,255,255,0.15);
+    }
+    
+    .theme-toggle {
+      background: rgba(255,255,255,0.15);
+      border: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      margin-left: 10px;
+    }
+    
+    .theme-toggle:hover {
+      background: rgba(255,255,255,0.25);
+      transform: scale(1.1);
+    }
+    
+    .theme-toggle .icon {
+      font-size: 1.3rem;
+      color: white;
+      transition: transform 0.5s ease;
+    }
+    
+    .theme-toggle:hover .icon {
+      transform: rotate(180deg);
+    }
+    
+    [data-theme="dark"] .theme-toggle .sun-icon,
+    .theme-toggle .moon-icon {
+      display: none;
+    }
+    
+    [data-theme="dark"] .theme-toggle .moon-icon {
+      display: inline;
+    }
+    
+    [data-theme="light"] .theme-toggle .sun-icon,
+    [data-theme="light"] .theme-toggle .moon-icon {
+      display: none;
+    }
+    
+    [data-theme="light"] .theme-toggle .sun-icon {
+      display: inline;
+    }
+    
+    .hero-section {
+      background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
+      color: white;
+      padding: 100px 0 120px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff15" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,138.7C960,139,1056,117,1152,96C1248,75,1344,53,1392,42.7L1440,32L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+      background-size: cover;
+    }
+    
+    .hero-section h1 {
+      font-weight: 800;
+      letter-spacing: -1px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    .hero-section .lead {
+      font-size: 1.25rem;
+      opacity: 0.95;
+    }
+    
+    .content-section {
+      background: var(--card-bg);
+      margin: 30px 0;
+      padding: 45px;
+      border-radius: 20px;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.3s ease;
+      border: 1px solid var(--border-color);
+    }
+    
+    .content-section:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+    }
+    
+    .section-title {
+      color: var(--primary-red);
+      font-weight: 700;
+      margin-bottom: 30px;
+      position: relative;
+      padding-bottom: 18px;
+      font-size: 1.8rem;
+    }
+    
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-red), var(--dark-red));
+      border-radius: 2px;
+    }
+    
+    .btn-primary-custom {
+      background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+      color: white;
+      padding: 14px 35px;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(179, 0, 0, 0.3);
+    }
+    
+    .btn-primary-custom:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(179, 0, 0, 0.4);
+      color: white;
+    }
+    
+    .btn-primary-custom:active {
+      transform: translateY(-1px);
+    }
+    
+
+    
+
+     
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+    
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .gallery-item:hover {
+      transform: scale(1.05);
+    }
+    
+    .gallery-item img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    
+    .modern-carousel {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      min-height: 600px;
+      max-height: 900px;
+      overflow: hidden;
+      margin: 0;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+    }
+    
+    .modern-carousel .carousel-inner {
+      height: 100% !important;
+      border-radius: 0 !important;
+      position: relative !important;
+    }
+    
+    .modern-carousel .carousel-item {
+      height: 100% !important;
+      overflow: hidden !important;
+      position: absolute !important;
+      top: 0;
+      left: 0;
+      width: 100%;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+    
+    .modern-carousel .carousel-item.active {
+      opacity: 1;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .modern-carousel .carousel-item > img {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: center !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    
+    .modern-carousel .carousel-item.active > img {
+      animation: subtleZoom 8s ease-out forwards;
+    }
+    
+    @keyframes subtleZoom {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.1); }
+    }
+    
+    .modern-carousel .carousel-overlay {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      background: linear-gradient(
+        135deg,
+        rgba(0, 0, 0, 0.7) 0%,
+        rgba(0, 0, 0, 0.3) 50%,
+        rgba(179, 0, 0, 0.2) 100%
+      );
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    .modern-carousel .carousel-content {
+      position: absolute !important;
+      top: 50% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) !important;
+      z-index: 2;
+      text-align: center;
+      width: 90%;
+      max-width: 800px;
+      padding: 0 20px;
+    }
+    
+    .modern-carousel .carousel-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      padding: 10px 24px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: white;
+      margin-bottom: 25px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      opacity: 0;
+      transform: translateY(30px);
+      animation: slideUpFade 0.8s ease forwards;
+    }
+    
+    .modern-carousel .carousel-title {
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 20px;
+      text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+      line-height: 1.1;
+      opacity: 0;
+      transform: translateY(40px);
+      animation: slideUpFade 0.8s ease 0.2s forwards;
+    }
+    
+    .modern-carousel .carousel-subtitle {
+      font-size: 1.4rem;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 35px;
+      line-height: 1.6;
+      opacity: 0;
+      transform: translateY(40px);
+      animation: slideUpFade 0.8s ease 0.4s forwards;
+    }
+    
+    .modern-carousel .carousel-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+      color: white;
+      padding: 18px 40px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      text-decoration: none;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      box-shadow: 0 10px 40px rgba(179, 0, 0, 0.4);
+      opacity: 0;
+      transform: scale(0.8);
+      animation: scaleIn 0.6s ease 0.6s forwards;
+    }
+    
+    .modern-carousel .carousel-cta:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 15px 50px rgba(179, 0, 0, 0.5);
+      color: white;
+    }
+    
+    .modern-carousel .carousel-cta .btn-icon {
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+    
+    .modern-carousel .carousel-cta:hover .btn-icon {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateX(3px);
+    }
+    
+    .modern-carousel .carousel-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 3;
+      width: 60px;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.95);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.4s ease;
+      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
+      opacity: 0.8;
+    }
+    
+    .modern-carousel .carousel-nav:hover {
+      opacity: 1;
+      transform: translateY(-50%) scale(1.1);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    }
+    
+    .modern-carousel .carousel-nav.prev {
+      left: 30px;
+    }
+    
+    .modern-carousel .carousel-nav.next {
+      right: 30px;
+    }
+    
+    .modern-carousel .carousel-nav svg {
+      width: 24px;
+      height: 24px;
+      fill: var(--primary-red);
+      transition: transform 0.3s ease;
+    }
+    
+    .modern-carousel .carousel-nav:hover svg {
+      transform: scale(1.2);
+    }
+    
+    .modern-carousel .carousel-indicators {
+      position: absolute;
+      left: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+      flex-direction: column;
+      gap: 15px;
+      z-index: 3;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .modern-carousel .carousel-indicators button {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      transition: all 0.4s ease;
+      margin: 0;
+      opacity: 0.6;
+    }
+    
+    .modern-carousel .carousel-indicators button.active {
+      background: white;
+      border-color: white;
+      transform: scale(1.3);
+      opacity: 1;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    }
+    
+    .modern-carousel .carousel-indicators button:hover {
+      background: white;
+      opacity: 1;
+    }
+    
+    .modern-carousel .carousel-progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.2);
+      z-index: 3;
+      overflow: hidden;
+    }
+    
+    .modern-carousel .carousel-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary-red), #ff4444);
+      width: 0%;
+      animation: progressBar 5s linear infinite;
+    }
+    
+    @keyframes slideUpFade {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes scaleIn {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    
+    @keyframes progressBar {
+      0% { width: 0%; }
+      100% { width: 100%; }
+    }
+    
+    .modern-carousel .carousel-scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: white;
+      opacity: 0.7;
+      animation: bounce 2s infinite;
+    }
+    
+    .modern-carousel .carousel-scroll-indicator span {
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+      40% { transform: translateX(-50%) translateY(-10px); }
+      60% { transform: translateX(-50%) translateY(-5px); }
+    }
+    
+    @media (max-width: 1200px) {
+      .modern-carousel {
+        height: 85vh;
+      }
+      .modern-carousel .carousel-title {
+        font-size: 3rem;
+      }
+      .modern-carousel .carousel-subtitle {
+        font-size: 1.25rem;
+      }
+    }
+    
+    @media (max-width: 992px) {
+      .modern-carousel {
+        height: 75vh;
+        min-height: 500px;
+      }
+      .modern-carousel .carousel-title {
+        font-size: 2.5rem;
+      }
+      .modern-carousel .carousel-subtitle {
+        font-size: 1.1rem;
+      }
+      .modern-carousel .carousel-cta {
+        padding: 15px 32px;
+        font-size: 1rem;
+      }
+      .modern-carousel .carousel-nav {
+        width: 50px;
+        height: 50px;
+      }
+      .modern-carousel .carousel-nav.prev {
+        left: 15px;
+      }
+      .modern-carousel .carousel-nav.next {
+        right: 15px;
+      }
+      .modern-carousel .carousel-indicators {
+        left: 15px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .modern-carousel {
+        height: 70vh;
+        min-height: 450px;
+      }
+      .modern-carousel .carousel-title {
+        font-size: 2rem;
+      }
+      .modern-carousel .carousel-subtitle {
+        font-size: 1rem;
+        margin-bottom: 25px;
+        -webkit-line-clamp: 3;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .modern-carousel .carousel-badge {
+        font-size: 0.7rem;
+        padding: 8px 16px;
+        margin-bottom: 18px;
+      }
+      .modern-carousel .carousel-cta {
+        padding: 14px 28px;
+        font-size: 0.9rem;
+      }
+      .modern-carousel .carousel-nav {
+        width: 45px;
+        height: 45px;
+        opacity: 1;
+      }
+      .modern-carousel .carousel-nav.prev {
+        left: 10px;
+      }
+      .modern-carousel .carousel-nav.next {
+        right: 10px;
+      }
+      .modern-carousel .carousel-indicators {
+        flex-direction: row;
+        left: 50%;
+        top: auto;
+        bottom: 20px;
+        transform: translateX(-50%);
+        gap: 10px;
+      }
+      .modern-carousel .carousel-indicators button {
+        width: 12px;
+        height: 12px;
+      }
+      .modern-carousel .carousel-progress {
+        bottom: 15px;
+        left: 20px;
+        right: 80px;
+        width: auto;
+      }
+      .modern-carousel .carousel-scroll-indicator {
+        display: none;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .modern-carousel {
+        height: 65vh;
+        min-height: 400px;
+      }
+      .modern-carousel .carousel-title {
+        font-size: 1.6rem;
+        margin-bottom: 15px;
+      }
+      .modern-carousel .carousel-subtitle {
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+        -webkit-line-clamp: 2;
+      }
+      .modern-carousel .carousel-badge {
+        font-size: 0.65rem;
+        padding: 6px 12px;
+        margin-bottom: 15px;
+      }
+      .modern-carousel .carousel-cta {
+        padding: 12px 24px;
+        font-size: 0.85rem;
+      }
+      .modern-carousel .carousel-nav {
+        width: 40px;
+        height: 40px;
+      }
+      .modern-carousel .carousel-nav svg {
+        width: 18px;
+        height: 18px;
+      }
+      .modern-carousel .carousel-content {
+        padding: 0 10px;
+      }
+    }
+    
+    @media (max-width: 400px) {
+      .modern-carousel {
+        height: 60vh;
+        min-height: 350px;
+      }
+      .modern-carousel .carousel-title {
+        font-size: 1.4rem;
+      }
+      .modern-carousel .carousel-subtitle {
+        display: none;
+      }
+      .modern-carousel .carousel-cta {
+        padding: 10px 20px;
+        font-size: 0.8rem;
+      }
+      .modern-carousel .carousel-cta .btn-icon {
+        display: none;
+      }
+    }
+    
+    .contact-info {
+      background: var(--contact-bg);
+      padding: 35px;
+      border-radius: 15px;
+      margin-top: 25px;
+      border: 1px solid var(--border-color);
+    }
+    
+    .contact-item {
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .contact-item i {
+      color: var(--primary-red);
+      font-size: 1.3rem;
+      margin-right: 18px;
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(179, 0, 0, 0.1);
+      border-radius: 50%;
+    }
+    
+    .contact-item strong {
+      color: var(--text-primary);
+    }
+    
+    .contact-item a {
+      color: var(--primary-red);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .contact-item a:hover {
+      color: var(--dark-red);
+    }
+    
+    .social-links {
+      margin-top: 25px;
+    }
+    
+    .social-links h5 {
+      color: var(--text-primary);
+      margin-bottom: 15px;
+    }
+    
+    .social-links a {
+      color: var(--primary-red);
+      font-size: 1.5rem;
+      margin-right: 15px;
+      transition: all 0.3s ease;
+    }
+    
+    .social-links a:hover {
+      color: var(--dark-red);
+      transform: translateY(-3px);
+    }
+    
+    .btn-outline-danger:hover {
+      background: var(--primary-red);
+      border-color: var(--primary-red);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(179, 0, 0, 0.3);
+    }
+    
+    .btn-outline-light {
+      background: transparent;
+      color: white;
+      border: 2px solid white;
+      padding: 14px 32px;
+      border-radius: 30px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+    
+    .btn-outline-light:hover {
+      background: white;
+      color: var(--primary-red);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+    }
+    
+    .social-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--card-bg);
+      color: var(--primary-red);
+      font-size: 1.3rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      text-decoration: none;
+      border: 1px solid var(--border-color);
+    }
+    
+    .social-icon:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    
+    .social-icon.facebook:hover {
+      background: #1877f2;
+      color: white;
+      border-color: #1877f2;
+    }
+    
+    .social-icon.instagram:hover {
+      background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+      color: white;
+      border: none;
+    }
+    
+    .social-icon.twitter-x:hover {
+      background: #000000;
+      color: white;
+      border-color: #000;
+    }
+    
+    .social-icon.whatsapp:hover {
+      background: #25d366;
+      color: white;
+      border-color: #25d366;
+    }
+    
+    footer {
+      background: var(--footer-bg);
+      color: rgba(255,255,255,0.9);
+      text-align: center;
+      padding: 40px 0;
+      margin-top: 60px;
+    }
+    
+    footer p {
+      margin-bottom: 8px;
+      opacity: 0.9;
+    }
+    
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--card-shadow);
+    }
+    
+    .card-body {
+      color: var(--text-primary);
+    }
+    
+    .alert-info {
+      background: var(--contact-bg);
+      border-color: var(--border-color);
+      color: var(--text-primary);
+    }
+    
+    .modal-content {
+      background: var(--modal-bg);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    
+    .modal-header {
+      background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+      color: white;
+      border-bottom: none;
+      padding: 20px 25px;
+    }
+    
+    .modal-header .modal-title {
+      font-weight: 700;
+    }
+    
+    .modal-body {
+      padding: 25px;
+      color: var(--text-primary);
+    }
+    
+    .modal-footer {
+      padding: 15px 25px;
+      border-top: 1px solid var(--border-color);
+      background: var(--modal-bg);
+    }
+    
+    .btn-close {
+      filter: brightness(0) invert(1);
+      opacity: 0.8;
+    }
+    
+    .btn-close:hover {
+      opacity: 1;
+    }
+    
+    .form-control {
+      background: var(--input-bg);
+      border-color: var(--input-border);
+      color: var(--text-primary);
+      border-radius: 12px;
+      padding: 12px 16px;
+    }
+    
+    .form-control:focus {
+      background: var(--input-bg);
+      border-color: var(--primary-red);
+      color: var(--text-primary);
+      box-shadow: 0 0 0 3px rgba(179, 0, 0, 0.15);
+    }
+    
+    .form-control::placeholder {
+      color: var(--text-secondary);
+    }
+    
+    .form-floating label {
+      color: var(--text-secondary);
+    }
+    
+    .form-floating > .form-control:focus ~ label,
+    .form-floating > .form-control:not(:placeholder-shown) ~ label {
+      color: var(--primary-red);
+    }
+    
+    select.form-control {
+      background-color: var(--input-bg);
+      cursor: pointer;
+    }
+    
+    textarea.form-control {
+      border-radius: 12px;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+      border: none;
+      border-radius: 25px;
+      padding: 12px 30px;
+      font-weight: 600;
+    }
+    
+    .btn-primary:hover {
+      background: linear-gradient(135deg, var(--dark-red), var(--primary-red));
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(179, 0, 0, 0.3);
+    }
+    
+    .btn-secondary {
+      background: var(--bg-secondary);
+      border-color: var(--border-color);
+      color: var(--text-primary);
+      border-radius: 25px;
+      padding: 12px 25px;
+    }
+    
+    .btn-secondary:hover {
+      background: var(--border-color);
+      border-color: var(--border-color);
+      color: var(--text-primary);
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeOut {
+      from { opacity: 1; transform: translateY(0); }
+      to { opacity: 0; transform: translateY(-20px); }
+    }
+    
+    ::selection {
+      background: var(--primary-red);
+      color: white;
+    }
+    
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: var(--bg-secondary);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary-red);
+      border-radius: 5px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--dark-red);
+    }
+    
+    @media (max-width: 1200px) {
+      .modern-carousel {
+        height: 85vh;
+      }
+      .modern-carousel .carousel-title {
+        font-size: 3rem;
+      }
+      .hero-section h1 {
+        font-size: 2.5rem;
+      }
+    }
+    
+    @media (max-width: 992px) {
+      .modern-carousel {
+        height: 75vh;
+        min-height: 500px;
+      }
+      .modern-carousel .carousel-title {
+        font-size: 2.5rem;
+      }
+      .modern-carousel .carousel-subtitle {
+        font-size: 1.1rem;
+      }
+      .hero-section {
+        padding: 80px 0 100px;
+      }
+      .hero-section h1 {
+        font-size: 2.2rem;
+      }
+      .content-section {
+        padding: 35px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .modern-carousel {
+        height: 70vh;
+        min-height: 450px;
+      }
+      .modern-carousel .carousel-content {
+        width: 92%;
+        padding: 0 10px;
+      }
+      .modern-carousel .carousel-title {
+        font-size: 2rem;
+      }
+      .modern-carousel .carousel-subtitle {
+        font-size: 1rem;
+        margin-bottom: 25px;
+        -webkit-line-clamp: 3;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .modern-carousel .carousel-badge {
+        font-size: 0.7rem;
+        padding: 8px 16px;
+        margin-bottom: 18px;
+      }
+      .modern-carousel .carousel-cta {
+        padding: 14px 28px;
+        font-size: 0.95rem;
+      }
+      .modern-carousel .carousel-nav {
+        width: 45px;
+        height: 45px;
+        opacity: 1;
+      }
+      .modern-carousel .carousel-nav.prev {
+        left: 10px;
+      }
+      .modern-carousel .carousel-nav.next {
+        right: 10px;
+      }
+      .modern-carousel .carousel-indicators {
+        flex-direction: row;
+        left: 50%;
+        top: auto;
+        bottom: 20px;
+        transform: translateX(-50%);
+        gap: 10px;
+      }
+      .modern-carousel .carousel-indicators button {
+        width: 12px;
+        height: 12px;
+      }
+      .modern-carousel .carousel-progress {
+        bottom: 15px;
+        left: 20px;
+        right: 80px;
+        width: auto;
+      }
+      .modern-carousel .carousel-scroll-indicator {
+        display: none;
+      }
+      .hero-section {
+        padding: 60px 0 80px;
+      }
+      .hero-section h1 {
+        font-size: 1.8rem;
+      }
+      .hero-section .lead {
+        font-size: 1rem;
+      }
+      .content-section {
+        margin: 20px 12px;
+        padding: 25px 20px;
+        border-radius: 15px;
+      }
+      .section-title {
+        font-size: 1.5rem;
+      }
+      .navbar-brand {
+        font-size: 1.2rem;
+      }
+      .theme-toggle {
+        width: 38px;
+        height: 38px;
+      }
+      .theme-toggle .icon {
+        font-size: 1.1rem;
+      }
+      .navbar-collapse {
+        background: var(--primary-red);
+        padding: 15px;
+        border-radius: 10px;
+        margin-top: 10px;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .modern-carousel {
+        height: 65vh;
+        min-height: 400px;
+      }
+      .modern-carousel .carousel-content {
+        width: 94%;
+      }
+      .modern-carousel .carousel-title {
+        font-size: 1.6rem;
+        margin-bottom: 12px;
+      }
+      .modern-carousel .carousel-subtitle {
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+        -webkit-line-clamp: 2;
+      }
+      .modern-carousel .carousel-badge {
+        font-size: 0.65rem;
+        padding: 6px 12px;
+        margin-bottom: 15px;
+      }
+      .modern-carousel .carousel-cta {
+        padding: 12px 24px;
+        font-size: 0.85rem;
+      }
+      .modern-carousel .carousel-nav {
+        width: 40px;
+        height: 40px;
+      }
+      .modern-carousel .carousel-nav svg {
+        width: 18px;
+        height: 18px;
+      }
+      .hero-section {
+        padding: 50px 0 70px;
+      }
+      .hero-section h1 {
+        font-size: 1.6rem;
+      }
+      .btn-primary-custom {
+        padding: 12px 25px;
+        font-size: 0.9rem;
+      }
+      .btn-outline-light {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+      }
+      .contact-info {
+        padding: 25px 20px;
+      }
+      .social-icon {
+        width: 42px;
+        height: 42px;
+        font-size: 1.1rem;
+      }
+      footer {
+        padding: 30px 15px;
+      }
+    }
+    
+    @media (max-width: 400px) {
+      .modern-carousel {
+        height: 60vh;
+        min-height: 350px;
+      }
+      .modern-carousel .carousel-content {
+        width: 95%;
+      }
+      .modern-carousel .carousel-title {
+        font-size: 1.4rem;
+        margin-bottom: 10px;
+      }
+      .modern-carousel .carousel-subtitle {
+        display: none;
+      }
+      .modern-carousel .carousel-badge {
+        font-size: 0.6rem;
+        padding: 5px 10px;
+        margin-bottom: 12px;
+      }
+      .modern-carousel .carousel-cta {
+        padding: 10px 20px;
+        font-size: 0.8rem;
+      }
+      .modern-carousel .carousel-cta .btn-icon {
+        display: none;
+      }
+      .hero-section {
+        padding: 45px 0 65px;
+      }
+      .hero-section h1 {
+        font-size: 1.4rem;
+      }
+      .hero-section .lead {
+        font-size: 0.85rem;
+      }
+      .btn-primary-custom, .btn-outline-light {
+        padding: 10px 18px;
+        font-size: 0.85rem;
+      }
+      .content-section {
+        margin: 15px 8px;
+        padding: 20px 15px;
+      }
+      .section-title {
+        font-size: 1.3rem;
+      }
+    }
+    
+    @media (max-width: 360px) {
+      .modern-carousel {
+        height: 55vh;
+        min-height: 320px;
+      }
+      .modern-carousel .carousel-title {
+        font-size: 1.25rem;
+      }
+      .modern-carousel .carousel-badge {
+        font-size: 0.55rem;
+        padding: 4px 8px;
+      }
+      .modern-carousel .carousel-cta {
+        padding: 8px 16px;
+        font-size: 0.75rem;
+      }
+      .modern-carousel .carousel-nav {
+        width: 35px;
+        height: 35px;
+      }
+      .hero-section h1 {
+        font-size: 1.25rem;
+      }
+      .navbar-brand {
+        font-size: 1rem;
+      }
+      .theme-toggle {
+        width: 34px;
+        height: 34px;
+      }
+    }
+    
+    @media (max-width: 320px) {
+      .modern-carousel {
+        height: 50vh;
+        min-height: 300px;
+      }
+      .modern-carousel .carousel-title {
+        font-size: 1.1rem;
+      }
+      .modern-carousel .carousel-badge {
+        display: none;
+      }
+      .modern-carousel .carousel-cta {
+        padding: 8px 14px;
+        font-size: 0.7rem;
+      }
+      .modern-carousel .carousel-nav {
+        width: 30px;
+        height: 30px;
+      }
+      .hero-section h1 {
+        font-size: 1.1rem;
+      }
+      .hero-section .lead {
+        font-size: 0.8rem;
+      }
+      .btn-primary-custom, .btn-outline-light {
+        padding: 8px 14px;
+        font-size: 0.75rem;
+      }
+    }
+    
+    @media (min-width: 576px) and (max-width: 767px) {
+      .modern-carousel .carousel-title {
+        font-size: 1.8rem;
+      }
+    }
+    
+    @media (min-width: 375px) and (max-width: 575px) {
+      .modern-carousel {
+        height: 68vh;
+      }
+    }
+    
+    @media (min-width: 414px) and (max-width: 575px) {
+      .modern-carousel {
+        height: 65vh;
+      }
+      .modern-carousel .carousel-title {
+        font-size: 1.5rem;
+      }
+    }
+    
+    @media (min-width: 768px) and (max-width: 991px) {
+      .modern-carousel {
+        height: 75vh;
+        min-height: 500px;
+      }
+      .modern-carousel .carousel-title {
+        font-size: 2.5rem;
+      }
+      .modern-carousel .carousel-subtitle {
+        font-size: 1.1rem;
+      }
+      .modern-carousel .carousel-cta {
+        padding: 15px 32px;
+        font-size: 1rem;
+      }
+      .modern-carousel .carousel-nav {
+        width: 50px;
+        height: 50px;
+      }
+      .modern-carousel .carousel-nav.prev {
+        left: 15px;
+      }
+      .modern-carousel .carousel-nav.next {
+        right: 15px;
+      }
+      .modern-carousel .carousel-indicators {
+        left: 15px;
+      }
+    }
+    
+    @media (orientation: landscape) and (max-height: 500px) {
+      .modern-carousel {
+        height: 100vh;
+        min-height: auto;
+      }
+      .modern-carousel .carousel-content {
+        padding: 0 15%;
+      }
+      .modern-carousel .carousel-title {
+        font-size: 1.8rem;
+      }
+      .modern-carousel .carousel-subtitle {
+        display: none;
+      }
+    }
+    
+    @supports (-webkit-touch-callout: none) {
+      .modern-carousel {
+        height: -webkit-fill-available;
+      }
+      .hero-section {
+        min-height: -webkit-fill-available;
+      }
+    }
+    
+    @media (hover: none) and (pointer: coarse) {
+      .modern-carousel .carousel-nav {
+        opacity: 1;
+      }
+      .modern-carousel .carousel-cta:hover {
+        transform: none;
+      }
+    }
+    
+    /* ===== ANDROID / MOBILE IMPROVEMENTS ===== */
+    
+    /* Prevent text size adjustment on orientation change */
+    html {
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+    
+    /* Better touch targets for all interactive elements */
+    a, button, input, select, textarea, .nav-link, .btn, .carousel-nav {
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* Minimum touch target size (48x48px WCAG) */
+    .navbar-toggler,
+    .theme-toggle,
+    .carousel-nav,
+    .carousel-indicators button,
+    .btn-primary-custom,
+    .btn-outline-light,
+    .social-icon,
+    .nav-link {
+      min-height: 44px;
+      min-width: 44px;
+    }
+    
+    /* Fix navbar collapse on Android */
+    @media (max-width: 991.98px) {
+      .navbar-collapse {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--primary-red) !important;
+        padding: 15px;
+        border-radius: 0 0 15px 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        z-index: 1050;
+        max-height: 70vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      
+      .navbar-nav {
+        padding: 10px 0;
+      }
+      
+      .nav-link {
+        padding: 12px 16px !important;
+        display: block;
+        margin: 4px 0;
+      }
+    }
+    
+    /* Fix modal on Android */
+    .modal-dialog {
+      margin: 10px;
+      max-height: 90vh;
+    }
+    
+    .modal-body {
+      max-height: 60vh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Fix forms on Android */
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="tel"],
+    input[type="number"],
+    input[type="date"],
+    select,
+    textarea {
+      font-size: 16px !important;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+    }
+    
+    /* Prevent zoom on input focus on iOS/Android */
+    @media screen and (max-width: 768px) {
+      input[type="text"],
+      input[type="email"],
+      input[type="password"],
+      input[type="tel"],
+      input[type="number"],
+      select,
+      textarea {
+        font-size: 16px !important;
+      }
+    }
+    
+    /* Fix hero section for mobile browsers */
+    @supports (-webkit-touch-callout: none) {
+      body {
+        min-height: -webkit-fill-available;
+      }
+    }
+    
+    /* Fix horizontal scroll issues */
+    .container {
+      overflow-x: hidden;
+      max-width: 100%;
+    }
+    
+    /* Better table scrolling */
+    .table-responsive {
+      -webkit-overflow-scrolling: touch;
+      border-radius: 10px;
+    }
+    
+    /* Fix dropdown menus on mobile */
+    .dropdown-menu {
+      position: fixed;
+      width: calc(100% - 30px);
+      left: 15px !important;
+      right: 15px !important;
+    }
+    
+    /* Smooth scrolling for Android */
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+    
+    /* Fix address bar hiding behavior */
+    @media (max-height: 500px) and (orientation: landscape) {
+      .hero-section {
+        min-height: auto;
+        padding: 40px 0 60px;
+      }
+      .modern-carousel {
+        height: 100vh;
+        min-height: auto;
+      }
+    }
+    
+    /* Prevent overscroll bounce on Android */
+    body {
+      overscroll-behavior-y: contain;
+    }
+    
+    /* Fix gallery grid on mobile */
+    @media (max-width: 576px) {
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .gallery-item img {
+        height: 150px;
+      }
+    }
+    
+    @media (max-width: 400px) {
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    /* Fix notification on mobile */
+    .alert.position-fixed {
+      max-width: 90vw;
+      font-size: 0.9rem;
+    }
+    
+    /* Fix hero buttons stacking on very small screens */
+    @media (max-width: 400px) {
+      .hero-section .mt-4 {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        align-items: center;
+      }
+      .hero-section .mt-4 .btn-primary-custom,
+      .hero-section .mt-4 .btn-outline-light {
+        width: 100%;
+        max-width: 280px;
+        justify-content: center;
+      }
+    }
+    
+    /* Fix contact section on mobile */
+    @media (max-width: 576px) {
+      .contact-info {
+        padding: 20px 15px;
+      }
+      .contact-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+      }
+      .contact-item i {
+        margin-right: 0;
+      }
+      .social-links {
+        text-align: center;
+      }
+      .social-links a {
+        margin: 0 8px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="#inicio">
+      <img src="imagenes/bomberos.jpeg" alt="Cuerpo de Bomberos" style="height: 40px; margin-right: 10px;">
+      Cuerpo de Bomberos
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#inicio">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#quienes">Quiénes Somos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#objetivo">Objetivo</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#donaciones">Donaciones</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#galeria">Galería</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#contacto">Contacto</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="admin.html">
+            <i class="bi bi-shield-lock"></i> Admin
+          </a>
+        </li>
+        <li class="nav-item d-flex align-items-center">
+          <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
+            <i class="bi bi-sun-fill icon sun-icon"></i>
+            <i class="bi bi-moon-fill icon moon-icon"></i>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero-section" id="inicio">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 fade-in">
+        <h1 class="display-4 fw-bold mb-4">Cuerpo de Bomberos</h1>
+        <p class="lead mb-4">Protección de la vida, los bienes y el medio ambiente</p>
+<div class="mt-4">
+          <a href="admin.html" class="btn-primary-custom me-3">
+            <i class="bi bi-shield-lock"></i> Ingresar al Sistema
+          </a>
+          <a href="#" class="btn-outline-light" onclick="showDonationModal(); return false;">
+            <i class="bi bi-heart-fill"></i> Apóyanos
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Main Content -->
+<main class="container">
+  <!-- Quiénes Somos Section -->
+  <section class="content-section" id="quienes" data-aos="fade-up">
+    <h2 class="section-title">
+      <i class="bi bi-people-fill"></i> Quiénes Somos
+    </h2>
+    <div class="row">
+      <div class="col-lg-8">
+        <p class="lead">El Cuerpo de Bomberos es una institución encargada de la gestión integral del riesgo contra incendios, rescate, atención de emergencias y educación preventiva.</p>
+        <p>Actuamos bajo los principios de disciplina, vocación de servicio, solidaridad y compromiso con la comunidad, brindando protección y seguridad las 24 horas del día.</p>
+      </div>
+      <div class="col-lg-4">
+        <div class="text-center">
+          <i class="bi bi-shield-check" style="font-size: 4rem; color: var(--primary-red);"></i>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Objetivo Section -->
+  <section class="content-section" id="objetivo" data-aos="fade-up" data-aos-delay="100">
+    <h2 class="section-title">
+      <i class="bi bi-bullseye"></i> Nuestro Objetivo
+    </h2>
+    <div class="row">
+      <div class="col-lg-12">
+        <p class="lead">Fortalecer nuestra capacidad operativa mediante la adquisición de radios de intercomunicación y equipos esenciales.</p>
+        <p>Esto permitirá mejorar la coordinación en emergencias y garantizar la seguridad del personal y de la ciudadanía, asegurando una respuesta más rápida y eficiente.</p>
+        
+        <div class="row mt-4">
+          <div class="col-md-4 text-center mb-3">
+            <i class="bi bi-radio" style="font-size: 2.5rem; color: var(--primary-red);"></i>
+            <h5 class="mt-2">Comunicación</h5>
+            <p class="small">Radios de intercomunicación</p>
+          </div>
+          <div class="col-md-4 text-center mb-3">
+            <i class="bi bi-tools" style="font-size: 2.5rem; color: var(--primary-red);"></i>
+            <h5 class="mt-2">Equipamiento</h5>
+            <p class="small">Herramientas especializadas</p>
+          </div>
+          <div class="col-md-4 text-center mb-3">
+            <i class="bi bi-people" style="font-size: 2.5rem; color: var(--primary-red);"></i>
+            <h5 class="mt-2">Capacitación</h5>
+            <p class="small">Formación continua</p>
+            <div class="mt-3">
+              <a href="#" class="btn-primary-custom" onclick="showTrainingModal(); return false;">
+                <i class="bi bi-calendar-plus"></i> Agendar Capacitación
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Donaciones Section -->
+  <section class="content-section" id="donaciones" data-aos="fade-up" data-aos-delay="200">
+    <h2 class="section-title">
+      <i class="bi bi-heart-fill"></i> Apóyanos
+    </h2>
+    <div class="row">
+      <div class="col-lg-6">
+        <p class="lead">Tu aporte voluntario contribuye directamente al mejoramiento del servicio bomberil.</p>
+        <p>Cada donación es una inversión en seguridad y vida. Con tu ayuda podemos adquirir equipos mejores y salvar más vidas.</p>
+        
+        <div class="mt-4">
+          <a href="#" class="btn-primary-custom" onclick="showDonationModal(); return false;">
+            <i class="bi bi-credit-card"></i> Realizar Donación
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body text-center">
+            <i class="bi bi-gift" style="font-size: 3rem; color: var(--primary-red);"></i>
+            <h5 class="mt-3">Tu contribución importa</h5>
+            <p class="small">Cada aporte nos ayuda a proteger mejor a nuestra comunidad</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Galería Section -->
+  <section class="content-section" id="galeria" data-aos="fade-up" data-aos-delay="300">
+    <h2 class="section-title">
+      <i class="bi bi-images"></i> Momentos que nos define
+    </h2>
+    
+    <!-- Modern Parallax Carousel -->
+    <div class="modern-carousel">
+      <div id="bomberosCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+        <!-- Indicators -->
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#bomberosCarousel" data-bs-slide-to="0" class="active"></button>
+          <button type="button" data-bs-target="#bomberosCarousel" data-bs-slide-to="1"></button>
+          <button type="button" data-bs-target="#bomberosCarousel" data-bs-slide-to="2"></button>
+          <button type="button" data-bs-target="#bomberosCarousel" data-bs-slide-to="3"></button>
+        </div>
+        
+        <!-- Carousel Items -->
+        <div class="carousel-inner">
+          <!-- Slide 1: Institucional -->
+          <div class="carousel-item active" data-bs-interval="5000">
+            <img src="imagenes/bomberos.jpeg" alt="Cuerpo de Bomberos" class="carousel-item-bg">
+            <div class="carousel-overlay"></div>
+            <div class="carousel-content">
+              <div class="carousel-badge">
+                <i class="bi bi-shield-fill-check"></i> Institucional
+              </div>
+              <h2 class="carousel-title">Somos tu Cuerpo de Bomberos</h2>
+              <p class="carousel-subtitle">Compromiso, valor y dedicación al servicio de la comunidad. Protegiendo vidas y bienes con profesionalismo y corazón de servicio.</p>
+              <a href="#quienes" class="carousel-cta">
+                Conoce más
+                <span class="btn-icon"><i class="bi bi-arrow-right"></i></span>
+              </a>
+            </div>
+          </div>
+          
+          <!-- Slide 2: Respuesta Rápida -->
+          <div class="carousel-item" data-bs-interval="5000">
+            <img src="imagenes/capacitacion.jpeg" alt="Capacitación Bomberil" class="carousel-item-bg">
+            <div class="carousel-overlay"></div>
+            <div class="carousel-content">
+              <div class="carousel-badge">
+                <i class="bi bi-lightning-fill"></i> 24/7
+              </div>
+              <h2 class="carousel-title">Alerta Permanente</h2>
+              <p class="carousel-subtitle">Nuestro escuadrón siempre está listo. Respuesta inmediata ante cualquier emergencia, porque cada segundo cuenta para salvar vidas.</p>
+              <a href="tel:+573114290411" class="carousel-cta">
+                Llámanos
+                <span class="btn-icon"><i class="bi bi-telephone-fill"></i></span>
+              </a>
+            </div>
+          </div>
+          
+          <!-- Slide 3: Capacitaciones -->
+          <div class="carousel-item" data-bs-interval="5000">
+            <img src="imagenes/capacitacion.jpeg" alt="Capacitaciones" class="carousel-item-bg">
+            <div class="carousel-overlay"></div>
+            <div class="carousel-content">
+              <div class="carousel-badge">
+                <i class="bi bi-mortarboard-fill"></i> Formación
+              </div>
+              <h2 class="carousel-title">Capacitaciones que Salvan Vidas</h2>
+              <p class="carousel-subtitle">Únete a nuestros programas de formación bomberil. Aprende técnicas profesionales y conviértete en agente de cambio.</p>
+              <a href="#" class="carousel-cta" onclick="showTrainingModal(); return false;">
+                Inscríbete
+                <span class="btn-icon"><i class="bi bi-arrow-right"></i></span>
+              </a>
+            </div>
+          </div>
+          
+          <!-- Slide 4: Rescate -->
+          <div class="carousel-item" data-bs-interval="5000">
+            <img src="imagenes/bomberos.jpeg" alt="Rescate y Salvamento" class="carousel-item-bg">
+            <div class="carousel-overlay"></div>
+            <div class="carousel-content">
+              <div class="carousel-badge">
+                <i class="bi bi-heart-pulse-fill"></i> Rescate
+              </div>
+              <h2 class="carousel-title">Donde hay riesgo, ahí estamos</h2>
+              <p class="carousel-subtitle">Técnicas avanzadas de rescate y salvamento en las situaciones más complejas. Tu seguridad es nuestra misión.</p>
+              <a href="#donaciones" class="carousel-cta">
+                Apóyanos
+                <span class="btn-icon"><i class="bi bi-heart-fill"></i></span>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Navigation Buttons -->
+        <button class="carousel-nav prev" type="button" data-bs-target="#bomberosCarousel" data-bs-slide="prev">
+          <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+        </button>
+        <button class="carousel-nav next" type="button" data-bs-target="#bomberosCarousel" data-bs-slide="next">
+          <svg viewBox="0 0 24 24"><path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/></svg>
+        </button>
+        
+        <!-- Progress Bar -->
+        <div class="carousel-progress">
+          <div class="carousel-progress-bar"></div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="carousel-scroll-indicator">
+          <span>Scroll</span>
+          <i class="bi bi-chevron-down"></i>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contacto Section -->
+  <section class="content-section" id="contacto" data-aos="fade-up" data-aos-delay="400">
+    <h2 class="section-title">
+      <i class="bi bi-envelope-fill"></i> Contacto
+    </h2>
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="contact-info">
+          <div class="contact-item">
+            <i class="bi bi-geo-alt-fill"></i>
+            <span><strong>Dirección:</strong> Calle 12 #9</span>
+          </div>
+          <div class="contact-item">
+            <i class="bi bi-telephone-fill"></i>
+            <span><strong>Teléfono:</strong> 
+              <a href="tel:+573114290411" class="btn btn-sm btn-outline-danger ms-2" style="border-radius: 20px; padding: 5px 15px; transition: all 0.3s ease;">
+                <i class="bi bi-telephone-fill"></i> 311 429 04 11
+              </a>
+            </span>
+          </div>
+          <div class="contact-item">
+            <i class="bi bi-envelope-fill"></i>
+            <span><strong>Correo electrónico:</strong> Bomberos@bomberos.com</span>
+          </div>
+          
+          <div class="social-links">
+            <h5>Síguenos en redes sociales:</h5>
+            <a href="https://www.facebook.com/profile.php?id=100057231408189" target="_blank" class="social-icon facebook me-3">
+              <i class="bi bi-facebook"></i>
+            </a>
+            <a href="#" class="social-icon instagram me-3">
+              <i class="bi bi-instagram"></i>
+            </a>
+            <a href="#" class="social-icon twitter-x me-3">
+              <i class="bi bi-twitter-x"></i>
+            </a>
+            <a href="https://wa.me/573114290411?text=•%20Tipo%20de%20emergencia:%0A•%20Lugar%20de%20la%20emergencia:%0A•%20Número%20y%20ubicación%20de%20las%20personas%20involucradas:%0A•%20Nombre%20de%20la%20persona%20que%20llama:%0A•%20número%20de%20teléfono:" target="_blank" class="social-icon whatsapp">
+              <i class="bi bi-whatsapp"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body text-center">
+            <i class="bi bi-clock-history" style="font-size: 2.5rem; color: var(--primary-red);"></i>
+            <h5 class="mt-3">Servicio 24/7</h5>
+            <p class="small">Estamos disponibles para emergencias las 24 horas del día, los 365 días del año</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <p class="mb-2">© 2026 Cuerpo de Bomberos | Sitio Web Institucional</p>
+        <p class="small mb-0">Protegiendo vidas con dedicación y compromiso</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Donation Modal -->
+<div class="modal fade" id="donationModal" tabindex="-1" aria-labelledby="donationModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header" style="background: linear-gradient(135deg, var(--primary-red), var(--dark-red)); color: white;">
+        <h5 class="modal-title" id="donationModalLabel">
+          <i class="bi bi-heart-fill"></i> Realizar Donación
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="donationForm">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="donorName" placeholder="Nombre completo" required>
+                <label for="donorName">Nombre completo</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="donorEmail" placeholder="Correo electrónico" required>
+                <label for="donorEmail">Correo electrónico</label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-floating mb-3">
+                <input type="tel" class="form-control" id="donorPhone" placeholder="Teléfono">
+                <label for="donorPhone">Teléfono (opcional)</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="donationAmount" placeholder="Monto" min="1000" step="1000" required>
+                <label for="donationAmount">Monto ($)</label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-floating mb-3">
+                <select class="form-control" id="donationType">
+                  <option value="unica">Donación única</option>
+                  <option value="mensual">Donación mensual</option>
+                </select>
+                <label for="donationType">Tipo de donación</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating mb-3">
+                <select class="form-control" id="paymentMethod">
+                  <option value="tarjeta">Tarjeta de crédito</option>
+                  <option value="transferencia">Transferencia bancaria</option>
+                  <option value="efectivo">Efectivo</option>
+                </select>
+                <label for="paymentMethod">Método de pago</label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-floating mb-3">
+            <textarea class="form-control" id="donationMessage" placeholder="Mensaje (opcional)" style="height: 100px;"></textarea>
+            <label for="donationMessage">Mensaje (opcional)</label>
+          </div>
+          
+          <div class="alert alert-info">
+            <i class="bi bi-info-circle"></i> Tu donación nos ayudará a adquirir equipos esenciales y mejorar nuestra capacidad de respuesta ante emergencias.
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" onclick="processDonation();">
+          <i class="bi bi-credit-card"></i> Procesar Donación
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Training Modal -->
+<div class="modal fade" id="trainingModal" tabindex="-1" aria-labelledby="trainingModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header" style="background: linear-gradient(135deg, var(--primary-red), var(--dark-red)); color: white;">
+        <h5 class="modal-title" id="trainingModalLabel">
+          <i class="bi bi-mortarboard"></i> Agendar Capacitación
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="trainingForm">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="traineeName" placeholder="Nombre completo" required>
+                <label for="traineeName">Nombre completo</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="traineeEmail" placeholder="Correo electrónico" required>
+                <label for="traineeEmail">Correo electrónico</label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-floating mb-3">
+                <input type="tel" class="form-control" id="traineePhone" placeholder="Teléfono" required>
+                <label for="traineePhone">Teléfono</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="traineeAge" placeholder="Edad" min="18" max="65" required>
+                <label for="traineeAge">Edad (18-65 años)</label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-floating mb-3">
+                <select class="form-control" id="trainingType" required>
+                  <option value="">Seleccionar tipo</option>
+                  <option value="bombero_basico">Bombero Básico</option>
+                  <option value="rescate_vehicular">Rescate Vehicular</option>
+                  <option value="incendios_estructurales">Incendios Estructurales</option>
+                  <option value="primeros_auxilios">Primeros Auxilios</option>
+                  <option value="manejo_materiales">Manejo de Materiales Peligrosos</option>
+                </select>
+                <label for="trainingType">Tipo de capacitación</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating mb-3">
+                <input type="date" class="form-control" id="preferredDate" required>
+                <label for="preferredDate">Fecha deseada</label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-floating mb-3">
+                <select class="form-control" id="preferredTime" required>
+                  <option value="">Seleccionar horario</option>
+                  <option value="matutino">Matutino (8:00 - 12:00)</option>
+                  <option value="vespertino">Vespertino (14:00 - 18:00)</option>
+                  <option value="nocturno">Nocturno (18:00 - 22:00)</option>
+                  <option value="fin_semana">Fin de semana</option>
+                </select>
+                <label for="preferredTime">Horario preferido</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating mb-3">
+                <select class="form-control" id="experienceLevel">
+                  <option value="principiante">Principiante</option>
+                  <option value="intermedio">Intermedio</option>
+                  <option value="avanzado">Avanzado</option>
+                </select>
+                <label for="experienceLevel">Nivel de experiencia</label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-floating mb-3">
+            <textarea class="form-control" id="trainingMessage" placeholder="Motivación o experiencia previa (opcional)" style="height: 100px;"></textarea>
+            <label for="trainingMessage">Motivación o experiencia previa (opcional)</label>
+          </div>
+          
+          <div class="alert alert-info">
+            <i class="bi bi-info-circle"></i> <strong>Información importante:</strong><br>
+            • Las capacitaciones tienen una duración de 40 horas<br>
+            • Se requiere constancia médica de buena salud<br>
+            • El curso incluye material didáctico y certificación<br>
+            • Las fechas están sujetas a disponibilidad
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" onclick="processTrainingRegistration();">
+          <i class="bi bi-calendar-check"></i> Agendar Capacitación
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- AOS Animation Library -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  // Initialize AOS
+  AOS.init({
+    duration: 800,
+    once: true,
+    offset: 100
+  });
+  
+  // Smooth scroll for navigation links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
+  
+  // Add fade-in animation to elements
+  window.addEventListener('load', () => {
+    document.querySelectorAll('.fade-in').forEach(el => {
+      el.style.opacity = '1';
+    });
+  });
+  
+  // Show donation modal
+  function showDonationModal() {
+    const modal = new bootstrap.Modal(document.getElementById('donationModal'));
+    modal.show();
+  }
+  
+  // Process donation
+  async function processDonation() {
+    const form = document.getElementById('donationForm');
+    
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+    
+    const donationData = {
+      name: document.getElementById('donorName').value,
+      email: document.getElementById('donorEmail').value,
+      phone: document.getElementById('donorPhone').value,
+      amount: document.getElementById('donationAmount').value,
+      type: document.getElementById('donationType').value,
+      method: document.getElementById('paymentMethod').value,
+      message: document.getElementById('donationMessage').value
+    };
+    
+    try {
+      const response = await fetch('api/index.php/donations/process', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(donationData)
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        // Close modal and reset form
+        bootstrap.Modal.getInstance(document.getElementById('donationModal')).hide();
+        form.reset();
+        
+        // Show success message
+        showNotification('¡Gracias por tu donación! Te enviaremos un correo de confirmación.', 'success');
+      } else {
+        showNotification(data.message || 'Error al procesar la donación', 'danger');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      showNotification('Error de conexión al servidor', 'danger');
+    }
+  }
+  
+  // Show training modal
+  function showTrainingModal() {
+    const modal = new bootstrap.Modal(document.getElementById('trainingModal'));
+    modal.show();
+    
+    // Set minimum date to today
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const minDate = tomorrow.toISOString().split('T')[0];
+    document.getElementById('preferredDate').setAttribute('min', minDate);
+  }
+  
+  // Process training registration
+  async function processTrainingRegistration() {
+    const form = document.getElementById('trainingForm');
+    
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+    
+    const trainingData = {
+      name: document.getElementById('traineeName').value,
+      email: document.getElementById('traineeEmail').value,
+      phone: document.getElementById('traineePhone').value,
+      age: document.getElementById('traineeAge').value,
+      trainingType: document.getElementById('trainingType').value,
+      preferredDate: document.getElementById('preferredDate').value,
+      preferredTime: document.getElementById('preferredTime').value,
+      experienceLevel: document.getElementById('experienceLevel').value,
+      message: document.getElementById('trainingMessage').value
+    };
+    
+    try {
+      const response = await fetch('api/index.php/training/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(trainingData)
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        // Close modal and reset form
+        bootstrap.Modal.getInstance(document.getElementById('trainingModal')).hide();
+        form.reset();
+        
+        // Show success message
+        showNotification('¡Solicitud de capacitación enviada! Nos pondremos en contacto contigo pronto.', 'success');
+      } else {
+        showNotification(data.message || 'Error al procesar la solicitud', 'danger');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      showNotification('Error de conexión al servidor', 'danger');
+    }
+  }
+  
+  // Show notification (reusable function)
+  function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.className = `alert alert-${type} position-fixed top-0 start-50 translate-middle-x mt-3`;
+    notification.style.zIndex = '9999';
+    notification.style.minWidth = '300px';
+    notification.style.animation = 'fadeIn 0.5s ease';
+    notification.innerHTML = `
+      <i class="bi bi-${type === 'success' ? 'check-circle' : type === 'danger' ? 'exclamation-triangle' : 'info-circle'}"></i> ${message}
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+      notification.style.animation = 'fadeOut 0.5s ease';
+      setTimeout(() => notification.remove(), 500);
+    }, 4000);
+  }
+  
+  // Theme Toggle System
+  const ThemeManager = {
+    STORAGE_KEY: 'bomberos-theme',
+    THEMES: {
+      LIGHT: 'light',
+      DARK: 'dark'
+    },
+    
+    init() {
+      const savedTheme = localStorage.getItem(this.STORAGE_KEY);
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const initialTheme = savedTheme || (prefersDark ? this.THEMES.DARK : this.THEMES.LIGHT);
+      
+      this.setTheme(initialTheme, false);
+      
+      document.getElementById('themeToggle').addEventListener('click', () => this.toggle());
+      
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem(this.STORAGE_KEY)) {
+          this.setTheme(e.matches ? this.THEMES.DARK : this.THEMES.LIGHT, false);
+        }
+      });
+    },
+    
+    setTheme(theme, save = true) {
+      document.documentElement.setAttribute('data-theme', theme);
+      if (save) {
+        localStorage.setItem(this.STORAGE_KEY, theme);
+      }
+    },
+    
+    toggle() {
+      const current = document.documentElement.getAttribute('data-theme');
+      const newTheme = current === this.THEMES.DARK ? this.THEMES.LIGHT : this.THEMES.DARK;
+      this.setTheme(newTheme, true);
+    }
+  };
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    ThemeManager.init();
+    
+    const carousel = document.getElementById('bomberosCarousel');
+    const carouselItems = carousel.querySelectorAll('.carousel-item');
+    const progressBar = carousel.querySelector('.carousel-progress-bar');
+    
+    function resetAnimations() {
+      carouselItems.forEach((item) => {
+        const badge = item.querySelector('.carousel-badge');
+        const title = item.querySelector('.carousel-title');
+        const subtitle = item.querySelector('.carousel-subtitle');
+        const cta = item.querySelector('.carousel-cta');
+        
+        [badge, title, subtitle, cta].forEach(el => {
+          if (el) {
+            el.style.animation = 'none';
+            el.offsetHeight;
+            el.style.animation = '';
+          }
+        });
+        
+        const img = item.querySelector('img');
+        if (img) {
+          img.style.animation = 'none';
+          img.offsetHeight;
+          if (item.classList.contains('active')) {
+            img.style.animation = 'subtleZoom 8s ease-out forwards';
+          }
+        }
+      });
+      
+      if (progressBar) {
+        progressBar.style.animation = 'none';
+        progressBar.offsetHeight;
+        progressBar.style.animation = 'progressBar 5s linear infinite';
+      }
+    }
+    
+    carousel.addEventListener('slid.bs.carousel', () => {
+      resetAnimations();
+    });
+    
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    carousel.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    
+    carousel.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+    }, { passive: true });
+  });
+  
+  // Prevent body scroll lock on theme change
+  document.addEventListener('themeChanged', () => {
+    document.body.style.opacity = '0.99';
+    setTimeout(() => {
+      document.body.style.opacity = '1';
+    }, 10);
+  });
+</script>
+
+
+
+</body>
+</html>
